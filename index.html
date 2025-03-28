@@ -801,7 +801,7 @@ ra
                 commandDisplay.textContent = "# Command will appear here";
             }
         }
-        
+        /*
         // Copy command to clipboard
         function copyCommand() {
             const command = commandDisplay.textContent;
@@ -819,6 +819,38 @@ ra
                         console.error('Could not copy text: ', err);
                         alert('Failed to copy to clipboard. Please copy manually.');
                     });
+            }
+        }
+        */
+
+        function copyCommand() {
+            const command = commandDisplay.textContent;
+            if (command && command !== "# Command will appear here") {
+                // Créer un élément temporaire
+                const tempElement = document.createElement('textarea');
+                tempElement.value = command;
+                document.body.appendChild(tempElement);
+                tempElement.select();
+                
+                try {
+                    const success = document.execCommand('copy');
+                    if (success) {
+                        // Visual feedback for copy
+                        const originalText = copyBtn.textContent;
+                        copyBtn.textContent = "Copied!";
+                        setTimeout(() => {
+                            copyBtn.textContent = originalText;
+                        }, 2000);
+                    } else {
+                        alert('Failed to copy to clipboard. Please copy manually.');
+                    }
+                } catch (err) {
+                    console.error('Could not copy text: ', err);
+                    alert('Failed to copy to clipboard. Please copy manually.');
+                }
+                
+                // Nettoyer
+                document.body.removeChild(tempElement);
             }
         }
         
